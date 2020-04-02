@@ -1,3 +1,11 @@
+#!/bin/bash
+#
+# Code to extract text strings from translated documents
+#
+# Copyright: Surhud More (IUCAA) 2020
+#
+# Bug reports/comments: Open github issues, or send pull requests
+
 awk '{if($1=="दावा:") print $1}' marathi.txt   > string1_marathi.txt
 awk '{if($1=="दावा:") {for(ii=2; ii<=NF; ii++) printf "%s ", $ii; print ""} }' marathi.txt   > string2_marathi.txt
 awk '{if($1=="निर्णय:") print $1}' marathi.txt   > string3_marathi.txt

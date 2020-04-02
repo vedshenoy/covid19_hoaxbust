@@ -1,4 +1,11 @@
-# import required classes
+#!/usr/bin/env python
+#
+# Code to insert text in poster jpg files.
+#
+# Copyright: Surhud More (IUCAA) 2020
+#
+# Bug reports/comments: Open github issues, or send pull requests
+
 import textwrap
 from PIL import Image, ImageDraw, ImageFont
 
@@ -30,6 +37,9 @@ class fill_poster:
         self.image.save(self.imagename+"_modified.jpg")
 
 if __name__ == "__main__":
+
+    # These strings will have to be read from the appropriate files extracted
+    # by `extract.sh`
     strings = {}
     strings["1"] = "दावा:"
     strings["2"] = "योगासने केल्याने माझे कोविड-१९ पासून संरक्षण होऊ शकते."
@@ -38,5 +48,8 @@ if __name__ == "__main__":
     strings["5"] = "का?:"
     strings["6"] = "इतर व्यायाम पद्धतींप्रमाणेच योगासने केल्याने शरीर निरोगी व तणावमुक्त राहू शकते. निरोगी व्यक्ती कोणत्याही आजारापासून लवकर बऱ्या होऊ शकतात. पण “योगासने केल्याने कोविड-१९ पासून संरक्षण होते” यासाठी कोणताही पुरावा नाही."
 
+    # Initiate a class
     a = fill_poster("Sample")
+
+    # Fill in the poster with strings, and save file
     a.convert(strings)
