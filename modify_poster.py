@@ -32,7 +32,7 @@ class fill_poster:
         self.output_text("The Hoaxbusters", 40, font=fonts["4"],  width=30)
 
         widthreduce = 0
-        if language == "Malayalam":
+        if language == "Malayalam": # or language == "Tamil":
            widthreduce = 5
         self.output_text(strings["1"], pl["1"], font=fonts["1"], width=30-widthreduce, color='rgb(94, 94, 94)')
         self.output_text(strings["2"], pl["2"], font=fonts["2"], width=30-widthreduce)
@@ -60,7 +60,7 @@ if __name__ == "__main__":
 
     fonts = {}
     print ('%s-Regular.ttf' % fonts_dict[language])
-    if language == "Malayalam":
+    if language == "Malayalam" or language == "Tamil":
         fonts["1"] = ImageFont.truetype('%s-Regular.ttf' % (fonts_dict[language]), size=20)
         fonts["2"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=30)
         fonts["3"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=20)
