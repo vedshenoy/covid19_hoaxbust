@@ -36,9 +36,9 @@ class fill_poster:
         self.output_text(strings["3"], pl["3"], font=fonts["1"], width=40, color='rgb(94, 94, 94)')
         self.output_text(strings["4"], pl["4"], font=fonts["2"], width=45, color='rgb(189, 23, 23)')
         if pl["5"] != 0:
-            self.output_text(strings["5"], pl["5"], font=fonts["5"], width=45, color='rgb(94, 94, 94)')
+            self.output_text(strings["5"], pl["5"], font=fonts["5"], width=45, color='rgb(0, 0, 0)')
         self.output_text(strings["6"], pl["6"], font=fonts["1"], width=45, color='rgb(94, 94, 94)')
-        self.output_text(strings["7"], pl["7"], font=fonts["3"], width=45)
+        self.output_text(strings["7"], pl["7"], font=fonts["3"], width=48)
         self.image.save(self.imagename+"_%s.jpg" % language)
 
 if __name__ == "__main__":
