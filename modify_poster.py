@@ -24,7 +24,7 @@ class fill_poster:
             self.draw.text(((self.image.width-w)/2, y + offsety), line, font=font, fill=color)
             offsety += font.getsize(line)[1]
 
-    def convert(self, strings, pl):
+    def convert(self, strings, pl, language):
         self.draw = ImageDraw.Draw(self.image)
         font1 = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Regular.ttf', size=30)
         font2 = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Bold.ttf', size=40)
@@ -40,18 +40,18 @@ class fill_poster:
         self.output_text(strings["4"], pl["4"], font=font2, width=45, color='rgb(189, 23, 23)')
         self.output_text(strings["5"], pl["5"], font=font1, width=45, color='rgb(94, 94, 94)')
         self.output_text(strings["6"], pl["6"], font=font3, width=45)
-        self.image.save(self.imagename+"_modified.jpg")
+        self.image.save(self.imagename+"_%s.jpg" % language)
 
 if __name__ == "__main__":
 
     # Read the placements file
-    placements = np.loadtxt("placements_marathi.txt")
+    placements = np.loadtxt("Marathi/placements_marathi.txt")
 
     # These strings will have to be read from the appropriate files extracted
     # by `extract.sh`
     fhandle = {}
     for ii in range(1, 7):
-        fhandle["%d" % ii] = open("string%d_marathi.txt" % ii, "r")
+        fhandle["%d" % ii] = open("Marathi/string%d_marathi.txt" % ii, "r")
 
     #for ii in range(1, 19):
     for ii in range(1, 19):
@@ -77,5 +77,5 @@ if __name__ == "__main__":
         # Initiate a class
         a = fill_poster("Sample_images/%05d" % ii)
         # Fill in the poster with strings, and save file
-        a.convert(strings, pl)
+        a.convert(strings, pl, "Marathi")
 
