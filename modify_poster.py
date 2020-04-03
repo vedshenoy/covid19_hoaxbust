@@ -8,6 +8,8 @@
 
 import textwrap
 from PIL import Image, ImageDraw, ImageFont
+from os import path
+import numpy as np
 
 class fill_poster:
     def __init__(self, image):
@@ -22,7 +24,7 @@ class fill_poster:
             self.draw.text(((self.image.width-w)/2, y + offsety), line, font=font, fill=color)
             offsety += font.getsize(line)[1]
 
-    def convert(self, strings):
+    def convert(self, strings, pl):
         self.draw = ImageDraw.Draw(self.image)
         font1 = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Regular.ttf', size=30)
         font2 = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Bold.ttf', size=40)
@@ -32,39 +34,48 @@ class fill_poster:
 
         self.output_text("The Hoaxbusters", 40, font=font4,  width=30)
 
-        self.output_text(strings["1"], 110, font=font1, width=30, color='rgb(94, 94, 94)')
-        self.output_text(strings["2"], 150, font=font2, width=30)
-        self.output_text(strings["3"], 250, font=font1, width=40, color='rgb(94, 94, 94)')
-        self.output_text(strings["4"], 300, font=font2, width=45, color='rgb(189, 23, 23)')
-        self.output_text(strings["5"], 850, font=font1, width=45, color='rgb(94, 94, 94)')
-        self.output_text(strings["6"], 900, font=font3, width=45)
+        self.output_text(strings["1"], pl["1"], font=font1, width=30, color='rgb(94, 94, 94)')
+        self.output_text(strings["2"], pl["2"], font=font2, width=30)
+        self.output_text(strings["3"], pl["3"], font=font1, width=40, color='rgb(94, 94, 94)')
+        self.output_text(strings["4"], pl["4"], font=font2, width=45, color='rgb(189, 23, 23)')
+        self.output_text(strings["5"], pl["5"], font=font1, width=45, color='rgb(94, 94, 94)')
+        self.output_text(strings["6"], pl["6"], font=font3, width=45)
         self.image.save(self.imagename+"_modified.jpg")
 
 if __name__ == "__main__":
 
+    # Read the placements file
+    placements = np.loadtxt("placements_marathi.txt")
+
     # These strings will have to be read from the appropriate files extracted
     # by `extract.sh`
+    fhandle = {}
+    for ii in range(1, 7):
+        fhandle["%d" % ii] = open("string%d_marathi.txt" % ii, "r")
 
-    strings = {}
-    strings["1"] = "दावा:"
-    strings["2"] = "ह्या करोनाविषाणूची निर्मीती एखाद्या प्रयोगशाळेत झाली आहे."
-    strings["3"] = "निर्णय:"
-    strings["4"] = "खरं नाही."
-    strings["5"] = "का?:"
-    strings["6"] = "सर्व विषाणूंचे स्वरूप नैसर्गिकरित्या बदलत असते. संशोधकांनी हे दाखवून दिले आहे की, हा विषाणू देखील नैसर्गिकरित्याच एका दुसऱ्या करोनाविषाणूपासून उत्क्रांत झाला आहे. म्हणजेच तो मानवनिर्मित नाही."
+    #for ii in range(1, 19):
+    for ii in range(1, 19):
+        strings = {}
+        pl = {}
+        pl["1"] = placements[ii-1][1]
+        pl["2"] = placements[ii-1][2]
+        pl["3"] = placements[ii-1][3]
+        pl["4"] = placements[ii-1][4]
+        pl["5"] = placements[ii-1][5]
+        pl["6"] = placements[ii-1][6]
+        strings["1"] = fhandle["1"].readline()
+        strings["2"] = fhandle["2"].readline()
+        strings["3"] = fhandle["3"].readline() 
+        strings["4"] = fhandle["4"].readline()
+        strings["5"] = fhandle["5"].readline()
+        strings["6"] = fhandle["6"].readline()
+        
+        if not path.exists("Sample_images/%05d.jpg" % ii) :
+            print("could not find", ii)
+            continue
 
-    '''
-    # Number 7
-    strings["1"] = "दावा:"
-    strings["2"] = "योगासने केल्याने माझे कोविड-१९ पासून संरक्षण होऊ शकते."
-    strings["3"] = "निर्णय:"
-    strings["4"] = "बहुतेक शक्य नाही (पुरेसा पुरावा नाही)"
-    strings["5"] = "का?:"
-    strings["6"] = "इतर व्यायाम पद्धतींप्रमाणेच योगासने केल्याने शरीर निरोगी व तणावमुक्त राहू शकते. निरोगी व्यक्ती कोणत्याही आजारापासून लवकर बऱ्या होऊ शकतात. पण “योगासने केल्याने कोविड-१९ पासून संरक्षण होते” यासाठी कोणताही पुरावा नाही."
-    '''
+        # Initiate a class
+        a = fill_poster("Sample_images/%05d" % ii)
+        # Fill in the poster with strings, and save file
+        a.convert(strings, pl)
 
-    # Initiate a class
-    a = fill_poster("Sample_images/00001")
-
-    # Fill in the poster with strings, and save file
-    a.convert(strings)
