@@ -26,16 +26,11 @@ class fill_poster:
             self.draw.text(((self.image.width-w)/2, y + offsety), line, font=font, fill=color)
             offsety += font.getsize(line)[1]
 
-    def convert(self, strings, pl, language, fonts):
+    def convert(self, strings, pl, language, fonts, widthreduce):
         self.draw = ImageDraw.Draw(self.image)
 
         self.output_text("The Hoaxbusters", 40, font=fonts["4"],  width=30)
 
-        widthreduce = 0
-        if language == "Malayalam" or language == "Khasi": # or language == "Tamil":
-           widthreduce = 5
-        if language == "Urdu": # or language == "Tamil":
-           widthreduce = -5
         self.output_text(strings["1"], pl["1"], font=fonts["1"], width=30-widthreduce, color='rgb(94, 94, 94)')
         self.output_text(strings["2"], pl["2"], font=fonts["2"], width=30-widthreduce)
         self.output_text(strings["3"], pl["3"], font=fonts["1"], width=40-widthreduce, color='rgb(94, 94, 94)')
@@ -53,35 +48,23 @@ if __name__ == "__main__":
     # Read the placements file
     placements = np.loadtxt("%s/placements_%s.txt" % (language, language))
 
-    # Read the Fonts strings
-    fonts_dict = {}
-    fonts_file = open("Fonts.csv", "r")
-    for line in fonts_file.readlines():
-        lang, ttf = line.split(" ")[0], line.split(" ")[1].strip("\n")
-        fonts_dict[lang] = ttf
+    from yaml import load, Loader
+
+    fin = open("Master_config.yaml", "r")
+    config = load(fin, Loader=Loader)
 
     fonts = {}
-    print ('%s-Regular.ttf' % fonts_dict[language])
-    if language == "Malayalam" or language == "Tamil" or language == "Kannada" or language == "Khasi":
-        fonts["1"] = ImageFont.truetype('%s-Regular.ttf' % (fonts_dict[language]), size=20)
-        fonts["2"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=30)
-        fonts["3"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=20)
-        fonts["5"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=15)
-    elif language == "Urdu":
-        fonts["1"] = ImageFont.truetype('%s-Regular.ttf' % (fonts_dict[language]), size=18)
-        fonts["2"] = ImageFont.truetype('%s-Regular.ttf' % (fonts_dict[language]), size=25)
-        fonts["3"] = ImageFont.truetype('%s-Regular.ttf' % (fonts_dict[language]), size=18)
-        fonts["5"] = ImageFont.truetype('%s-Regular.ttf' % (fonts_dict[language]), size=15)
-    else:
-        fonts["1"] = ImageFont.truetype('%s-Regular.ttf' % (fonts_dict[language]), size=30)
-        fonts["2"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=40)
-        fonts["3"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=30)
-        fonts["5"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=20)
-
+    fonts["1"] = ImageFont.truetype(config[language]["font1"], size=config[language]["size1"])
+    fonts["2"] = ImageFont.truetype(config[language]["font2"], size=config[language]["size2"])
+    fonts["3"] = ImageFont.truetype(config[language]["font3"], size=config[language]["size3"])
+    fonts["5"] = ImageFont.truetype(config[language]["font5"], size=config[language]["size5"])
     fonts["4"] = ImageFont.truetype('Noto/English/Montserrat-Bold.ttf', size=40)
 
-    df = pandas.read_csv("Hoaxbuster.csv")
+    widthreduce = 0
+    if "widthreduce" in config[language]:
+        widthreduce = config[language]["widthreduce"]
 
+    df = pandas.read_csv("Hoaxbuster.csv")
     df.fillna("", inplace = True) 
 
     #for ii in range(1, 19):
@@ -118,4 +101,4 @@ if __name__ == "__main__":
         # Initiate a class
         a = fill_poster("Sample_images/%05d" % ii)
         # Fill in the poster with strings, and save file
-        a.convert(strings, pl, language, fonts)
+        a.convert(strings, pl, language, fonts, widthreduce)
