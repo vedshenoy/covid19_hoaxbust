@@ -34,6 +34,8 @@ class fill_poster:
         widthreduce = 0
         if language == "Malayalam": # or language == "Tamil":
            widthreduce = 5
+        if language == "Urdu": # or language == "Tamil":
+           widthreduce = -5
         self.output_text(strings["1"], pl["1"], font=fonts["1"], width=30-widthreduce, color='rgb(94, 94, 94)')
         self.output_text(strings["2"], pl["2"], font=fonts["2"], width=30-widthreduce)
         self.output_text(strings["3"], pl["3"], font=fonts["1"], width=40-widthreduce, color='rgb(94, 94, 94)')
@@ -64,7 +66,12 @@ if __name__ == "__main__":
         fonts["1"] = ImageFont.truetype('%s-Regular.ttf' % (fonts_dict[language]), size=20)
         fonts["2"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=30)
         fonts["3"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=20)
-        fonts["5"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=10)
+        fonts["5"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=15)
+    elif language == "Urdu":
+        fonts["1"] = ImageFont.truetype('%s-Regular.ttf' % (fonts_dict[language]), size=18)
+        fonts["2"] = ImageFont.truetype('%s-Regular.ttf' % (fonts_dict[language]), size=25)
+        fonts["3"] = ImageFont.truetype('%s-Regular.ttf' % (fonts_dict[language]), size=18)
+        fonts["5"] = ImageFont.truetype('%s-Regular.ttf' % (fonts_dict[language]), size=15)
     else:
         fonts["1"] = ImageFont.truetype('%s-Regular.ttf' % (fonts_dict[language]), size=30)
         fonts["2"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=40)
