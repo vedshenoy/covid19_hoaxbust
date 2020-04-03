@@ -34,7 +34,7 @@ Urdu:
   size2: 25
   size3: 18
   size5: 15
-  widthreduce: -5
+  widthreduce: -10
 Malayalam:
   font1: Noto/Malayalam/NotoSansMalayalam-Regular.ttf 
   font2: Noto/Malayalam/NotoSansMalayalam-Bold.ttf 
