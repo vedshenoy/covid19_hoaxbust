@@ -31,14 +31,17 @@ class fill_poster:
 
         self.output_text("The Hoaxbusters", 40, font=fonts["4"],  width=30)
 
-        self.output_text(strings["1"], pl["1"], font=fonts["1"], width=30, color='rgb(94, 94, 94)')
-        self.output_text(strings["2"], pl["2"], font=fonts["2"], width=30)
-        self.output_text(strings["3"], pl["3"], font=fonts["1"], width=40, color='rgb(94, 94, 94)')
-        self.output_text(strings["4"], pl["4"], font=fonts["2"], width=45, color='rgb(189, 23, 23)')
+        widthreduce = 0
+        if language == "Malayalam":
+           widthreduce = 5
+        self.output_text(strings["1"], pl["1"], font=fonts["1"], width=30-widthreduce, color='rgb(94, 94, 94)')
+        self.output_text(strings["2"], pl["2"], font=fonts["2"], width=30-widthreduce)
+        self.output_text(strings["3"], pl["3"], font=fonts["1"], width=40-widthreduce, color='rgb(94, 94, 94)')
+        self.output_text(strings["4"], pl["4"], font=fonts["2"], width=45-widthreduce, color='rgb(189, 23, 23)')
         if pl["5"] != 0:
-            self.output_text(strings["5"], pl["5"], font=fonts["5"], width=45, color='rgb(0, 0, 0)')
-        self.output_text(strings["6"], pl["6"], font=fonts["1"], width=45, color='rgb(94, 94, 94)')
-        self.output_text(strings["7"], pl["7"], font=fonts["3"], width=48)
+            self.output_text(strings["5"], pl["5"], font=fonts["5"], width=45-widthreduce, color='rgb(0, 0, 0)')
+        self.output_text(strings["6"], pl["6"], font=fonts["1"], width=45-widthreduce, color='rgb(94, 94, 94)')
+        self.output_text(strings["7"], pl["7"], font=fonts["3"], width=48-widthreduce)
         self.image.save(self.imagename+"_%s.jpg" % language)
 
 if __name__ == "__main__":
@@ -57,10 +60,17 @@ if __name__ == "__main__":
 
     fonts = {}
     print ('%s-Regular.ttf' % fonts_dict[language])
-    fonts["1"] = ImageFont.truetype('%s-Regular.ttf' % (fonts_dict[language]), size=30)
-    fonts["2"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=40)
-    fonts["3"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=30)
-    fonts["5"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=20)
+    if language == "Malayalam":
+        fonts["1"] = ImageFont.truetype('%s-Regular.ttf' % (fonts_dict[language]), size=20)
+        fonts["2"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=30)
+        fonts["3"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=20)
+        fonts["5"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=10)
+    else:
+        fonts["1"] = ImageFont.truetype('%s-Regular.ttf' % (fonts_dict[language]), size=30)
+        fonts["2"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=40)
+        fonts["3"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=30)
+        fonts["5"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=20)
+
     fonts["4"] = ImageFont.truetype('Noto/English/Montserrat-Bold.ttf', size=40)
 
     df = pandas.read_csv("Hoaxbuster.csv")
