@@ -24,28 +24,30 @@ class fill_poster:
             self.draw.text(((self.image.width-w)/2, y + offsety), line, font=font, fill=color)
             offsety += font.getsize(line)[1]
 
-    def convert(self, strings, pl, language):
+    def convert(self, strings, pl, language, fonts):
         self.draw = ImageDraw.Draw(self.image)
-        font1 = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Regular.ttf', size=30)
-        font2 = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Bold.ttf', size=40)
-        font3 = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Bold.ttf', size=30)
-        font3 = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Bold.ttf', size=30)
-        font4 = ImageFont.truetype('Noto/English/Montserrat-Bold.ttf', size=40)
 
-        self.output_text("The Hoaxbusters", 40, font=font4,  width=30)
+        self.output_text("The Hoaxbusters", 40, font=fonts["4"],  width=30)
 
-        self.output_text(strings["1"], pl["1"], font=font1, width=30, color='rgb(94, 94, 94)')
-        self.output_text(strings["2"], pl["2"], font=font2, width=30)
-        self.output_text(strings["3"], pl["3"], font=font1, width=40, color='rgb(94, 94, 94)')
-        self.output_text(strings["4"], pl["4"], font=font2, width=45, color='rgb(189, 23, 23)')
-        self.output_text(strings["5"], pl["5"], font=font1, width=45, color='rgb(94, 94, 94)')
-        self.output_text(strings["6"], pl["6"], font=font3, width=45)
+        self.output_text(strings["1"], pl["1"], font=fonts["1"], width=30, color='rgb(94, 94, 94)')
+        self.output_text(strings["2"], pl["2"], font=fonts["2"], width=30)
+        self.output_text(strings["3"], pl["3"], font=fonts["1"], width=40, color='rgb(94, 94, 94)')
+        self.output_text(strings["4"], pl["4"], font=fonts["2"], width=45, color='rgb(189, 23, 23)')
+        self.output_text(strings["5"], pl["5"], font=fonts["1"], width=45, color='rgb(94, 94, 94)')
+        self.output_text(strings["6"], pl["6"], font=fonts["3"], width=45)
         self.image.save(self.imagename+"_%s.jpg" % language)
 
 if __name__ == "__main__":
 
     # Read the placements file
     placements = np.loadtxt("Marathi/placements_marathi.txt")
+
+    fonts = {}
+    fonts["1"] = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Regular.ttf', size=30)
+    fonts["2"] = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Bold.ttf', size=40)
+    fonts["3"] = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Bold.ttf', size=30)
+    fonts["3"] = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Bold.ttf', size=30)
+    fonts["4"] = ImageFont.truetype('Noto/English/Montserrat-Bold.ttf', size=40)
 
     # These strings will have to be read from the appropriate files extracted
     # by `extract.sh`
@@ -77,5 +79,4 @@ if __name__ == "__main__":
         # Initiate a class
         a = fill_poster("Sample_images/%05d" % ii)
         # Fill in the poster with strings, and save file
-        a.convert(strings, pl, "Marathi")
-
+        a.convert(strings, pl, "Marathi", fonts)
