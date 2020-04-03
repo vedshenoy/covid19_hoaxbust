@@ -48,11 +48,19 @@ if __name__ == "__main__":
     # Read the placements file
     placements = np.loadtxt("%s/placements_%s.txt" % (language, language))
 
+    # Read the Fonts strings
+    fonts_dict = {}
+    fonts_file = open("Fonts.csv", "r")
+    for line in fonts_file.readlines():
+        lang, ttf = line.split(" ")[0], line.split(" ")[1].strip("\n")
+        fonts_dict[lang] = ttf
+
     fonts = {}
-    fonts["1"] = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Regular.ttf', size=30)
-    fonts["2"] = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Bold.ttf', size=40)
-    fonts["3"] = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Bold.ttf', size=30)
-    fonts["5"] = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Bold.ttf', size=20)
+    print ('%s-Regular.ttf' % fonts_dict[language])
+    fonts["1"] = ImageFont.truetype('%s-Regular.ttf' % (fonts_dict[language]), size=30)
+    fonts["2"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=40)
+    fonts["3"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=30)
+    fonts["5"] = ImageFont.truetype('%s-Bold.ttf' % (fonts_dict[language]), size=20)
     fonts["4"] = ImageFont.truetype('Noto/English/Montserrat-Bold.ttf', size=40)
 
     df = pandas.read_csv("Hoaxbuster.csv")
