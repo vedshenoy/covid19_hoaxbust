@@ -11,6 +11,7 @@ from PIL import Image, ImageDraw, ImageFont
 from os import path
 import numpy as np
 import sys
+import pandas
 
 class fill_poster:
     def __init__(self, image):
@@ -54,13 +55,12 @@ if __name__ == "__main__":
     fonts["5"] = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Bold.ttf', size=20)
     fonts["4"] = ImageFont.truetype('Noto/English/Montserrat-Bold.ttf', size=40)
 
-    # These strings will have to be read from the appropriate files extracted
-    # by `extract.sh`
-    fhandle = {}
-    for ii in range(1, 8):
-        fhandle["%d" % ii] = open("%s/string%d_%s.txt" % (language, ii, language), "r")
+    df = pandas.read_csv("Hoaxbuster.csv")
+
+    df.fillna("", inplace = True) 
 
     #for ii in range(1, 19):
+    jj = 0
     for ii in range(1, 19):
         strings = {}
         pl = {}
@@ -71,13 +71,20 @@ if __name__ == "__main__":
         pl["5"] = placements[ii-1][5]
         pl["6"] = placements[ii-1][6]
         pl["7"] = placements[ii-1][7]
-        strings["1"] = fhandle["1"].readline()
-        strings["2"] = fhandle["2"].readline()
-        strings["3"] = fhandle["3"].readline() 
-        strings["4"] = fhandle["4"].readline()
-        strings["5"] = fhandle["5"].readline()
-        strings["6"] = fhandle["6"].readline()
-        strings["7"] = fhandle["7"].readline()
+        strings["1"] = df[language].values[jj]
+        jj = jj + 1
+        strings["2"] = df[language].values[jj]
+        jj = jj + 1
+        strings["3"] = df[language].values[jj]
+        jj = jj + 1
+        strings["4"] = df[language].values[jj]
+        jj = jj + 1
+        strings["5"] = df[language].values[jj]
+        jj = jj + 1
+        strings["6"] = df[language].values[jj]
+        jj = jj + 1
+        strings["7"] = df[language].values[jj]
+        jj = jj + 1
         
         if not path.exists("Sample_images/%05d.jpg" % ii) :
             print("could not find", ii)
