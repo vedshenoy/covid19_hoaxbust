@@ -10,6 +10,7 @@ import textwrap
 from PIL import Image, ImageDraw, ImageFont
 from os import path
 import numpy as np
+import sys
 
 class fill_poster:
     def __init__(self, image):
@@ -33,27 +34,31 @@ class fill_poster:
         self.output_text(strings["2"], pl["2"], font=fonts["2"], width=30)
         self.output_text(strings["3"], pl["3"], font=fonts["1"], width=40, color='rgb(94, 94, 94)')
         self.output_text(strings["4"], pl["4"], font=fonts["2"], width=45, color='rgb(189, 23, 23)')
-        self.output_text(strings["5"], pl["5"], font=fonts["1"], width=45, color='rgb(94, 94, 94)')
-        self.output_text(strings["6"], pl["6"], font=fonts["3"], width=45)
+        if pl["5"] != 0:
+            self.output_text(strings["5"], pl["5"], font=fonts["5"], width=45, color='rgb(94, 94, 94)')
+        self.output_text(strings["6"], pl["6"], font=fonts["1"], width=45, color='rgb(94, 94, 94)')
+        self.output_text(strings["7"], pl["7"], font=fonts["3"], width=45)
         self.image.save(self.imagename+"_%s.jpg" % language)
 
 if __name__ == "__main__":
 
+    language = sys.argv[1]
+
     # Read the placements file
-    placements = np.loadtxt("Marathi/placements_marathi.txt")
+    placements = np.loadtxt("%s/placements_%s.txt" % (language, language))
 
     fonts = {}
     fonts["1"] = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Regular.ttf', size=30)
     fonts["2"] = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Bold.ttf', size=40)
     fonts["3"] = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Bold.ttf', size=30)
-    fonts["3"] = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Bold.ttf', size=30)
+    fonts["5"] = ImageFont.truetype('Noto/Devanagari/NotoSansDevanagari-Bold.ttf', size=20)
     fonts["4"] = ImageFont.truetype('Noto/English/Montserrat-Bold.ttf', size=40)
 
     # These strings will have to be read from the appropriate files extracted
     # by `extract.sh`
     fhandle = {}
-    for ii in range(1, 7):
-        fhandle["%d" % ii] = open("Marathi/string%d_marathi.txt" % ii, "r")
+    for ii in range(1, 8):
+        fhandle["%d" % ii] = open("%s/string%d_%s.txt" % (language, ii, language), "r")
 
     #for ii in range(1, 19):
     for ii in range(1, 19):
@@ -65,12 +70,14 @@ if __name__ == "__main__":
         pl["4"] = placements[ii-1][4]
         pl["5"] = placements[ii-1][5]
         pl["6"] = placements[ii-1][6]
+        pl["7"] = placements[ii-1][7]
         strings["1"] = fhandle["1"].readline()
         strings["2"] = fhandle["2"].readline()
         strings["3"] = fhandle["3"].readline() 
         strings["4"] = fhandle["4"].readline()
         strings["5"] = fhandle["5"].readline()
         strings["6"] = fhandle["6"].readline()
+        strings["7"] = fhandle["7"].readline()
         
         if not path.exists("Sample_images/%05d.jpg" % ii) :
             print("could not find", ii)
@@ -79,4 +86,4 @@ if __name__ == "__main__":
         # Initiate a class
         a = fill_poster("Sample_images/%05d" % ii)
         # Fill in the poster with strings, and save file
-        a.convert(strings, pl, "Marathi", fonts)
+        a.convert(strings, pl, language, fonts)
