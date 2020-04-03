@@ -17,6 +17,10 @@ be inserted at different places in the poster.
 
 `modify_poster` is a class which is able to insert the strings at the right places.
 
+```
+python modify_poster.py
+```
+
 It will take an example poster and then put the strings extracted from the Main
 file in the poster.
 
