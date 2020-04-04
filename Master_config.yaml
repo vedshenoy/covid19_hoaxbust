@@ -56,14 +56,14 @@ Hindi:
   size3: 30
   size5: 20
   widthreduce: -2
-Bangla:
+Bengali:
   font1: Noto/Bengali/NotoSansBengali-Regular.ttf 
   font2: Noto/Bengali/NotoSansBengali-Bold.ttf 
   font3: Noto/Bengali/NotoSansBengali-Bold.ttf 
   font5: Noto/Bengali/NotoSansBengali-Bold.ttf 
   size1: 30
-  size2: 40
-  size3: 30
+  size2: 35
+  size3: 25
   size5: 20
   widthreduce: 5
 Gujarati:
@@ -99,9 +99,9 @@ Odia:
   font2: Noto/Odia/NotoSansOriya-Bold.ttf 
   font3: Noto/Odia/NotoSansOriya-Bold.ttf 
   font5: Noto/Odia/NotoSansOriya-Bold.ttf 
-  size1: 30
-  size2: 40
-  size3: 30
+  size1: 25
+  size2: 35
+  size3: 25
   size5: 20
 Kannada:
   font1: Noto/Kannada/NotoSansKannada-Regular.ttf 
